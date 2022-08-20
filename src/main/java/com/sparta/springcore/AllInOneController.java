@@ -56,6 +56,10 @@ public class AllInOneController {
     public Long updateProduct(@PathVariable Long id, @RequestBody ProductMypriceRequestDto requestDto) throws SQLException {
         Product product = new Product();
 
+        if(requestDto.getMyprice()<=0){
+            throw new RuntimeException("최저가를 0이상으로 입력해 주세요");
+        }
+
 // DB 연결
         Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
 
