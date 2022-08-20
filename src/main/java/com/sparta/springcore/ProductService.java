@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService {
+    //12번 객체 생성으로 가져온 ProductRepository의 정보를 9번 멤버변수에 담아두겠다
+    private final ProductRepository productRepository; // 멤버변수
+
+    public ProductService(){
+        ProductRepository productRepository = new ProductRepository();
+        this.productRepository = productRepository;
+    }
 
     public Product createProduct(ProductRequestDto requestDto) throws SQLException {
         // 요청받은 DTO 로 DB에 저장할 객체 만들기(서비스의 역할)
@@ -12,7 +19,6 @@ public class ProductService {
         //그리고 그걸 productRepository에 넣어서 세이브하니까 리턴없이 함수만들어도됨
         Product product = new Product(requestDto);
         // [리포지토리 호출하는 과정]
-        ProductRepository productRepository = new ProductRepository();
         //인풋으로 Product정보(DB에 저장할 객체)를 넘겨줘야 한다
         //reqeustDto를 인풋로 안하는 이유? myprice를 0원으로 설정하는 부분 때문에 Product해야함
         //Product랑 ProductRequestDto 클래스 각각 컨트롤+클릭으로 들어가서 확인해보기
@@ -27,8 +33,6 @@ public class ProductService {
         if ( requestDto.getMyprice() <= 0 ) {
             throw new RuntimeException("희망 최저가는 0 원 이상으로 설정해주세요!!!");
         }
-
-        ProductRepository productRepository = new ProductRepository();
         Product product = productRepository.getProduct(id);
         //레포지토리가 아니라 서비스가 검사할 수 있게 한다
          if(product == null) {
@@ -39,7 +43,6 @@ public class ProductService {
     }
 
     public List<Product> getProducts() throws SQLException {
-        ProductRepository productRepository = new ProductRepository();
         List<Product> products = productRepository.getProducts();
         return products;
     }
