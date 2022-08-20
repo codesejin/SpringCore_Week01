@@ -6,13 +6,28 @@ import java.util.List;
 
 public class ProductRepository {
 
+    //생성자에 매개변수로 들어가려면 멤버변수로 있어야한다.
+    //final을 해주는이유? final을 해놓으며 처음에 생성이 되고나서 그 이후로 값으르 바꿀 수 없음
+    //해당 DB값이 중간에 바뀌거나 하지 않을테니 final로 해서 수정이 안되도록 만들어 줄거임
+    //질문// 비밀번호 변경 같은건 그럼 final선언 안하나??
+
+    private final String dbUrl;
+    private final String dbId;
+    private final String dbPassword;
+    //의존성 주입 IOC
+    public ProductRepository(String dbUrl, String dbId, String dbPassword){
+        this.dbUrl = dbUrl;
+        this.dbId = dbId;
+        this.dbPassword = dbPassword;
+    }
+
 
     public void createProduct(Product product) throws SQLException {
 
         // DB 연결 ( getConnection 에 빨간 밑줄 ? 예외 상황이 발생하는걸 해당함 수 위로 올려줘라
         // throw를 해서 넘겨줘라(show context actions)
         // 리포지토리에서 서비스로 , 서비스에서 컨트롤러로 에러 올려줌 (니가 처리해)
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
+        Connection connection = getConnection();
 
         // DB Query 작성 /// id가 자동으로 계속 증가하니까 마지막 아이디는 max(id) => 불러오는 이유는 마지막으로 저장했던 id 다음으로 또 새로 id를 저장할거기때문
         PreparedStatement ps = connection.prepareStatement("select max(id) as id from product");
@@ -44,7 +59,7 @@ public class ProductRepository {
     public Product getProduct(Long id) throws SQLException {
         Product product = new Product();
         // DB 연결
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
+        Connection connection = getConnection();
 
         // DB Query 작성
         PreparedStatement ps = connection.prepareStatement("select * from product where id = ?");
@@ -69,7 +84,7 @@ public class ProductRepository {
 
     public void updateMyprice(Long id, int myprice) throws SQLException {
         // DB 연결
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
+        Connection connection = getConnection();
 
         // DB Query 작성  //db에서 아이디가 ?값인것을 물음표로 바꿔주세요 라는 의미
         PreparedStatement ps = connection.prepareStatement("update product set myprice = ? where id = ?");
@@ -92,7 +107,7 @@ public class ProductRepository {
         //DB에서 새로 모아진 관심상품을 담을 배열
         List<Product> products = new ArrayList<>();
         // DB 연결
-        Connection connection = DriverManager.getConnection("jdbc:h2:mem:springcoredb", "sa", "");
+        Connection connection = getConnection();
 
         // DB Query 작성 및 실행
         Statement stmt = connection.createStatement();
@@ -118,5 +133,9 @@ public class ProductRepository {
         connection.close();
 
         return products;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(dbUrl, dbId, dbPassword);
     }
 }

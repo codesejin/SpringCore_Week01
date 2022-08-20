@@ -7,9 +7,8 @@ import java.util.List;
 public class ProductService {
     //12번 객체 생성으로 가져온 ProductRepository의 정보를 9번 멤버변수에 담아두겠다
     private final ProductRepository productRepository; // 멤버변수
-
-    public ProductService(){
-        ProductRepository productRepository = new ProductRepository();
+    //DI적용, 미리 만들어져 있는 객체를가져다가 사용하겠다
+    public ProductService(ProductRepository productRepository){
         this.productRepository = productRepository;
     }
 
