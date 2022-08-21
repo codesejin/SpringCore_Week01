@@ -1,10 +1,11 @@
-package com.sparta.springcore;
+package com.sparta.springcore.service;
 
-import org.springframework.stereotype.Component;
+import com.sparta.springcore.model.Product;
+import com.sparta.springcore.dto.ProductMypriceRequestDto;
+import com.sparta.springcore.repository.ProductRepository;
+import com.sparta.springcore.dto.ProductRequestDto;
 import org.springframework.stereotype.Service;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
