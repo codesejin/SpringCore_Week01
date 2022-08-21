@@ -1,9 +1,15 @@
 package com.sparta.springcore;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Service // 스프링이 알아서 ProductService를 new로 만들어서 스프링IoC커네이너 안에 담아두고
+//ProductService를 빈으로 생성해서 관리한다
 public class ProductService {
     //12번 객체 생성으로 가져온 ProductRepository의 정보를 9번 멤버변수에 담아두겠다
     private final ProductRepository productRepository; // 멤버변수
