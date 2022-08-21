@@ -11,10 +11,6 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    public ProductController(ProductService productService){
-        this.productService = productService;
-    }
-
     // 신규 상품 등록
     @PostMapping("/api/products")
     public Product createProduct(@RequestBody ProductRequestDto requestDto) throws SQLException {
