@@ -12,6 +12,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
+                // image폴더를 login없이 허용
+                .antMatchers("/images/**").permitAll()
+                // css폴더를 login없이 허용
+                .antMatchers("/css/**").permitAll()
                 // 어떤 요청이든 '인증' -> 스프링 서버로 요청이 오는 모든 request에 대해서 인증 과정을 거치겠다
                 .anyRequest().authenticated()
                 //조건 추가
