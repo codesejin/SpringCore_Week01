@@ -16,12 +16,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 //조건 추가
                 .and()
-                    // 로그인 기능 허용
+                     //로그인기능 허용
                     .formLogin()
-                    //formLogin이 성공하게 되면 어느쪽으로 이동시킬까요 -> /로 루트 위치
+                    .loginPage("/user/login")//url주소 http://localhost:8080/만 쳐도 리다이렉션 시켜줄것임
                     .defaultSuccessUrl("/")
-                    //로그인에 관련된 기능에 대해 허용을 해줘라
-                    //맨위에 어떤 요청이든 인증을 하게되면 로그인 페이지도 못 들어갈 수 있기에
+                    .failureUrl("/user/login?error")
                     .permitAll()
                 .and()
                     // 로그아웃 기능 허용
