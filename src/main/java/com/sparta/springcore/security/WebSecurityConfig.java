@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    //패스워드 암호화 구현
+
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
@@ -31,24 +31,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoringAntMatchers("/user/**");
 
         http.authorizeRequests()
-        // image 폴더를 login 없이 허용
+                // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
-        // css 폴더를 login 없이 허용
+                // css 폴더를 login 없이 허용
                 .antMatchers("/css/**").permitAll()
-        // 회원 관리 처리 API 전부를 login 없이 허용
+                // 회원 관리 처리 API 전부를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
-        // 그 외 어떤 요청이든 '인증'
+                // 그 외 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
                 .and()
-        // 로그인 기능
+                // [로그인 기능]
                 .formLogin()
+                // 로그인 VieSEw 제공 (GET /user/login)
                 .loginPage("/user/login")
+                // 로그인 처리 (POST /user/login)
+                .loginProcessingUrl("/user/login")
+                // 로그인 처리 후 성공 시 URL
                 .defaultSuccessUrl("/")
+                // 로그인 처리 후 실패 시 URL
                 .failureUrl("/user/login?error")
                 .permitAll()
                 .and()
-        // 로그아웃 기능
+                // [로그아웃 기능]
                 .logout()
+                // 로그아웃 처리 URL (GET/user/logout)
+                .logoutUrl("/user/logout")
                 .permitAll();
     }
 }

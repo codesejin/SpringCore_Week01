@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service//authentication Manager가 UserDetailsService한테 회원 정보 찾아달라고 요청
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
