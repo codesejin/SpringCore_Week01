@@ -15,8 +15,18 @@
     <title>나만의 셀렉샵</title>
 </head>
 <body>
-<div class="header">
-    Select Shop
+<div class="header" style="position:relative;">
+    <!--동적페이지로 변환-->
+    <div id="header-title-login-user">
+        <span th:text="${username}"></span> 님의
+    </div>
+    <div id="header-title-select-shop">
+        Select Shop
+    </div>
+    <!--로그아웃 버튼  post형식-->
+    <form id="my_form" method="post" action="/user/logout">
+        <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+    </form>
 </div>
 <div class="nav">
     <div class="nav-see active">
