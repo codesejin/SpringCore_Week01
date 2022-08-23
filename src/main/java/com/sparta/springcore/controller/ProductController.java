@@ -3,19 +3,14 @@ package com.sparta.springcore.controller;
 import com.sparta.springcore.model.Product;
 import com.sparta.springcore.dto.ProductMypriceRequestDto;
 import com.sparta.springcore.dto.ProductRequestDto;
+import com.sparta.springcore.model.UserRoleEnum;
 import com.sparta.springcore.service.ProductService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import java.sql.*;
 import java.util.List;
-import com.sparta.springcore.dto.ProductMypriceRequestDto;
-import com.sparta.springcore.dto.ProductRequestDto;
-import com.sparta.springcore.model.Product;
 import com.sparta.springcore.security.UserDetailsImpl;
-import com.sparta.springcore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -62,7 +57,8 @@ public class ProductController {
 
         return productService.getProducts(userId);
     }
-
+    //관리자용 전체 상품 조회
+    @Secured(UserRoleEnum.Authority.ADMIN)//static한 값사용하겠다
     @GetMapping("/api/admin/products")
     //함수 이름은 동일하면 안된다는 자바의 규칙
     public List<Product> getAllProducts() {

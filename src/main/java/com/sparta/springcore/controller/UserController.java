@@ -1,14 +1,14 @@
 package com.sparta.springcore.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.sparta.springcore.dto.SignupRequestDto;
 import com.sparta.springcore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -37,5 +37,13 @@ public class UserController {
     public String registerUser(SignupRequestDto requestDto) {
         userService.registerUser(requestDto);
         return "redirect:/user/login";//가입처리가 잘 됬다면 유저 로그인페이지로 리다이렉션
+    }
+    //카카오 로그인
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(@RequestParam String code) throws JsonProcessingException {
+        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+        userService.kakaoLogin(code);
+
+        return "redirect:/";
     }
 }
