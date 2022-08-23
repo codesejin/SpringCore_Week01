@@ -63,5 +63,7 @@
         </div>
     </div>
 </div>
+<!--타임리프문법 : admin_role가 있는 경우에만 admin이 내려가도록-->
+<div th:if="${admin_role}" id="admin"></div>
 </body>
 </html>

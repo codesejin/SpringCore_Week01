@@ -62,4 +62,13 @@ public class ProductController {
 
         return productService.getProducts(userId);
     }
+
+    @GetMapping("/api/admin/products")
+    //함수 이름은 동일하면 안된다는 자바의 규칙
+    public List<Product> getAllProducts() {
+        // 로그인 되어 있는 회원 테이블의 ID
+        // 로그인되어있는 회원 아이디로 조회가 아니라 전체 상품 조회할거니까 기존코드 삭제
+//        Long userId = userDetails.getUser().getId();
+        return productService.getAllProducts();
+    }
 }
