@@ -11,4 +11,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //결과는 옵셔널 유저로 나오라고 선언해줌
     //스프링 데이터 JPA위에서 쿼리가 된다
     Optional<User> findByUsername(String username);
+    Optional<User> findByKakaoId(Long KakaoId);
 }

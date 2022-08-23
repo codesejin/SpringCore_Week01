@@ -20,6 +20,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -65,7 +66,29 @@ public class UserService {
         // 2. 토큰으로 카카오 API 호출
         //함수에서는 리턴이 하나만 될 수 있도록 되어있는데, 3개는 어떻게 하지?
         //유저네임,비밀번호,이메일을 가진 클래스(KakaoUserInfoDto)를 만들어서 그걸로 받으면됨
-        KakaoUserInfoDto kakaoUserInfoDto = getKakaoUserInfo(accessToken);
+        KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
+
+        // DB 에 중복된 Kakao Id 가 있는지 확인
+        Long kakaoId = kakaoUserInfo.getId();
+        User kakaoUser = userRepository.findByKakaoId(kakaoId)
+                .orElse(null);
+        if (kakaoUser == null) {
+            // 회원가입
+            // username: kakao nickname
+            String nickname = kakaoUserInfo.getNickname();
+
+            // password: random UUID
+            String password = UUID.randomUUID().toString();
+            String encodedPassword = passwordEncoder.encode(password);
+
+            // email: kakao email
+            String email = kakaoUserInfo.getEmail();
+            // role: 일반 사용자
+            UserRoleEnum role = UserRoleEnum.USER;
+
+            kakaoUser = new User(nickname, encodedPassword, email, role, kakaoId);
+            userRepository.save(kakaoUser);
+        }
     }
 
     private String getAccessToken(String code) throws JsonProcessingException {
